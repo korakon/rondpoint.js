@@ -1,24 +1,21 @@
 {
-    "name": "rondpoint",
-    "description": "Small client side js router",
-    "version": "1.0.0",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/korakon/rondpoint.js"
-    },
-
-    "scripts": {
-        "test": "./node_modules/.bin/mocha"
-    },
-
-    "dependencies": {
-        "path-to-regexp": "~1.0.1",
-        "ware": "~1.0.1"
-    },
-
-    "devDependencies": {
-        "browserify": "^4.2.0",
-        "mocha": "^1.18.2",
-        "chai": "^1.9.0"
-    }
+  "name": "rondpoint",
+  "description": "Small client side js router",
+  "version": "1.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/korakon/rondpoint.js"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "dependencies": {
+    "path-to-regexp": "~1.0.1",
+    "ware": "~1.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^4.2.0",
+    "mocha": "^1.18.2",
+    "chai": "^1.9.0"
+  }
 }
