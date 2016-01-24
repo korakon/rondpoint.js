@@ -1,87 +1,49 @@
+import pathToRegexp from 'path-to-regexp';
+
 /*
- * This a somewhat of a fork of tj/page.js
- * it differs by not listening to any event
- * eg: popstate, click, etc
- * if you want to use it, you need to bind those events youtself.
+ * Create a route object
+ * This is just a helper function, it only exists to provide a nice syntax
+ * for creatings routes
  *
+ * @example
+ * const routes = [route('/users/:username', () => alert('hello')),
+                   route(/*./, () => alert('404'))]
+ *
+ * @param {string|regex} path - the pattern to match against
+ * @param handler function
+ * @param options object
+ * @returns {object}
  */
 
-var ware = require('ware'),
-    pathToRegexp = require('path-to-regexp'),
-    EventEmitter = require('events').EventEmitter;
-
-function noop() {};
-
-function Route(path, options) {
-    this.path = path;
-    this.keys = [];
-    if (typeof path == 'string' || path instanceof String) {
-        this.regex = pathToRegexp(path, this.keys, options);
-    } else {
-        this.regex = path;
-    }
+function route(pattern, handler, options={}) {
+    return {pattern, handler, options};
 }
 
-Route.prototype.match = function(path, params) {
-    var keys = this.keys,
-        matches = this.regex.exec(decodeURIComponent(path));
+/*
+ * Loop through an array of route objects and return one if it matches
+ * otherwise returns null.
+ * @param {string} pathname
+ * @param {[route]} routes - an array of route objects
+ * @returns {object|null} - a route object or null
+ */
 
-    if (!matches) return false;
+function match(pathname, routes) {
+    for (let route of routes) {
+        let keys = [],
+            regex = pathToRegexp(route.path, keys),
+            matches = regex.exec(pathname),
+            params = {};
+        if (matches) {
+            for (let i = 1; i < matches.length; i++) {
+                let key = keys[i - 1];
+                params[key.name] = matches[i];
+            }
 
-    for (var i = 1; i < matches.length; i++) {
-        var key = keys[ i - 1];
-        params[key.name] = matches[i];
-    }
+            return {route, params};
+        } else {
+            return null;
+        }
+    };
+};
 
-    return true;
-}
-
-Route.prototype.wrap = function(fn) {
-    var self = this;
-    return function(ctx, next) {
-        if (self.match(ctx.path, ctx.params)) return fn(ctx, next);
-        next();
-    }
-}
-
-function Router(options) {
-    this.middleware = ware();
-    this.options = options;
-    this.use = this.middleware.use.bind(this.middleware);
-}
-
-Router.prototype = Object.create(EventEmitter.prototype);
-
-Router.prototype.route = function(path, callback) {
-    var self = this,
-        route = new Route(path, this.options);
-
-    if (Array.isArray(callback)) {
-        callback.forEach(function(cb) {
-            self.middleware.use(route.wrap(cb));
-        });
-        return this;
-    }
-    this.middleware.use(route.wrap(callback));
-    return this;
-}
-
-Router.prototype.dispatch = function(path, callback) {
-    var callback = callback || noop,
-        ctx = new Context(path);
-
-    this.emit('dispatch', ctx);
-    this.middleware.run(ctx, callback);
-}
-
-
-function Context(path) {
-    this.path = path;
-    this.params = {};
-    // Env is a simple object
-    // that routes can use to pass data between them
-    this.env = {};
-}
-
-
-module.exports = Router;
+export {route, match};
