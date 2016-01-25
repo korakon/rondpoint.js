@@ -15,7 +15,13 @@ import pathToRegexp from 'path-to-regexp';
  * @returns {object}
  */
 
+
 function route(pattern, handler, options={}) {
+    if (!pattern) {
+        throw new Error('Pattern is missing!');
+    } else if (!handler) {
+        throw new Error('Handler is missing!');
+    }
     return {pattern, handler, options};
 }
 
@@ -30,8 +36,8 @@ function route(pattern, handler, options={}) {
 function match(pathname, routes) {
     for (let route of routes) {
         let keys = [],
-            regex = pathToRegexp(route.path, keys),
-            matches = regex.exec(pathname),
+            pattern = pathToRegexp(route.pattern, keys),
+            matches = pattern.exec(pathname),
             params = {};
         if (matches) {
             for (let i = 1; i < matches.length; i++) {
