@@ -2,10 +2,10 @@
   "name": "rondpoint",
   "license": "CC0-1.0",
   "description": "Small client side js router for use with redux and history",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "main": "lib/index.js",
   "files": [
-      "lib"
+    "lib"
   ],
   "repository": {
     "type": "git",
