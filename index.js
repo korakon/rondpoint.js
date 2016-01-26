@@ -52,4 +52,36 @@ function match(pathname, routes) {
     };
 };
 
-export {route, match};
+// XXX: document this
+function isSameOrigin(url) {
+    let location = window.location;
+    let a = document.createElement('a');
+
+    a.href = url;
+
+    return a.hostname == location.hostname &&
+        a.port == location.port &&
+        a.protocol == location.protocol;
+}
+
+
+// XXX: document this
+function clickable(event, el) {
+    if (!event) return false;
+    if (!el) return false;
+    if (!el.pathname) console.warn(el, 'pathname is empty');
+
+    if (event.defaultPrevented) return false;
+    if (el.target) return false;
+    if (event.button !== 0) return false;
+    if (event.metaKey ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.shiftKey) return false;
+    if (el.tagName.toLowerCase() !== 'a') return false;
+    if (!isSameOrigin(el.href)) return false;
+
+    return true;
+}
+
+export {route, match, clickable};
