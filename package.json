@@ -2,8 +2,11 @@
   "name": "rondpoint",
   "license": "CC0-1.0",
   "description": "Small client side js router for use with redux and history",
-  "version": "1.0.1",
+  "version": "2.0.1",
   "main": "lib/index.js",
+  "files": [
+      "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/korakon/rondpoint.js"
