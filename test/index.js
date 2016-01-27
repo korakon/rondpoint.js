@@ -5,7 +5,7 @@ const routes = [
     route('/', () => 'Home', {foo: 'bar'}),
     route('/users/:username', () => 'Username'),
     route(/.*/, () => 'NotFound')
-]
+];
 
 describe('Rondpoint', () => {
     describe('route', () => {
@@ -24,5 +24,17 @@ describe('Rondpoint', () => {
         it('should accept a string and a routes array', () => {
 
         });
+    });
+
+    describe('isSameOrigin', () => {
+    });
+
+    describe('clickable', () => {
+    });
+
+    describe('middleware', () => {
+    });
+
+    describe('reducer', () => {
     });
 });
