@@ -13,7 +13,8 @@
   },
   "scripts": {
     "test": "mocha --compilers js:babel-core/register",
-    "build": "mkdir -p lib && babel index.js -o lib/index.js"
+    "prepublish": "npm run build",
+    "build": "mkdir -p lib && babel src --out-dir lib"
   },
   "dependencies": {
     "path-to-regexp": "^1.2.1"
@@ -22,6 +23,7 @@
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
     "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-2": "^6.3.13",
     "chai": "^3.4.1",
     "mocha": "^2.3.4"
   }
